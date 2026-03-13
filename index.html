@@ -180,8 +180,23 @@ select.form-control option{background:var(--card);}
 .btn-ghost{padding:8px 18px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:7px;font-family:'DM Sans',sans-serif;font-weight:500;font-size:13px;cursor:pointer;transition:all .2s;}
 .btn-ghost:hover{color:var(--text);border-color:var(--text);}
 /* ALERT */
-.alert-banner{position:fixed;top:62px;right:14px;background:var(--success);color:#fff;padding:8px 16px;border-radius:7px;font-size:12px;font-weight:600;z-index:2000;transform:translateY(-20px);opacity:0;transition:all .3s;pointer-events:none;}
+.alert-banner{position:fixed;top:62px;right:14px;color:#fff;padding:8px 16px;border-radius:7px;font-size:12px;font-weight:600;z-index:2000;transform:translateY(-20px);opacity:0;transition:all .3s;pointer-events:none;background:var(--success);}
 .alert-banner.show{transform:translateY(0);opacity:1;}
+.alert-banner.err{background:var(--danger);}
+.error-badge{border-color:var(--danger)!important;color:var(--danger)!important;}
+/* API CONFIG MODAL */
+.api-modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;width:480px;max-width:95vw;box-shadow:0 30px 80px rgba(0,0,0,.6);}
+.api-section{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;}
+.api-section-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+.api-section-sub{font-size:11px;color:var(--muted);margin-bottom:12px;line-height:1.5;}
+.api-tag{font-size:9px;padding:2px 7px;border-radius:20px;font-weight:700;}
+.tag-free{background:rgba(34,197,94,.15);color:var(--success);}
+.tag-used{background:rgba(59,126,248,.15);color:var(--accent);}
+.tag-live{background:rgba(0,212,170,.15);color:var(--accent2);}
+.input-row{display:flex;gap:8px;}
+.input-row input{flex:1;}
+.btn-connect{padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;}
+.btn-connect:hover{background:#2d6fe8;}
 /* LOADING */
 .loading-overlay{position:fixed;inset:0;background:rgba(10,12,18,.92);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
 .loading-overlay.hidden{display:none;}
@@ -213,7 +228,9 @@ select.form-control option{background:var(--card);}
   </div>
   <div class="topbar-right">
     <span class="lead-count-badge" id="totalBadge">1,000 Leads</span>
-    <span class="api-badge" id="apiStatus" onclick="promptApiKey()">⚙ Set Maps API Key</span>
+    <span class="api-badge connected" id="apiStatus_firebase" style="display:none">☁ Firebase</span>
+    <span class="api-badge" id="apiStatus" onclick="promptApiKey()">⚙ Maps API</span>
+    <button onclick="openApiModal()" style="padding:5px 12px;border-radius:7px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">⚡ APIs</button>
   </div>
 </div>
 
@@ -381,6 +398,62 @@ select.form-control option{background:var(--card);}
 
 <div class="alert-banner" id="alertBanner"></div>
 
+<!-- API CONFIG MODAL -->
+
+<div class="modal-overlay" id="apiModal">
+  <div class="api-modal">
+    <div class="modal-title">⚡ API Integrations</div>
+
+```
+<!-- Google Maps -->
+<div class="api-section">
+  <div class="api-section-title">🗺 Google Maps Platform <span class="api-tag tag-used">Already Used</span></div>
+  <div class="api-section-sub">Maps, Geocoding & Places Autocomplete. Required for pins and address lookup.<br>Enable Maps API + Places API in Google Cloud Console.</div>
+  <div class="input-row">
+    <input class="api-input" type="text" id="apiKeyInput2" placeholder="AIza... (Google Maps API Key)">
+    <button class="btn-connect" onclick="connectMaps()">Connect</button>
+  </div>
+  <div style="margin-top:6px;font-size:10px;color:var(--muted)">📖 console.cloud.google.com → APIs & Services → Enable: Maps JS, Geocoding, Places</div>
+</div>
+
+<!-- Firebase -->
+<div class="api-section">
+  <div class="api-section-title">☁ Firebase Firestore <span class="api-tag tag-free">Free Tier</span> <span class="api-tag tag-live">Real-Time Sync</span></div>
+  <div class="api-section-sub">Free Google cloud database. Leads sync across devices in real-time. Free tier: 1GB storage, 50k reads/day, 20k writes/day.<br>Setup: console.firebase.google.com → New Project → Firestore → Web App</div>
+  <div class="form-group" style="margin-bottom:8px">
+    <label class="form-label">Project ID</label>
+    <input class="form-control" id="fb-projectId" placeholder="my-fieldpro-crm">
+  </div>
+  <div class="form-group" style="margin-bottom:8px">
+    <label class="form-label">API Key</label>
+    <input class="form-control" id="fb-apiKey" placeholder="AIza...">
+  </div>
+  <div class="form-group" style="margin-bottom:12px">
+    <label class="form-label">App ID</label>
+    <input class="form-control" id="fb-appId" placeholder="1:123456:web:abcdef">
+  </div>
+  <button class="btn-connect" style="width:100%" onclick="connectFirebase()">☁ Connect Firebase & Enable Cloud Sync</button>
+</div>
+
+<!-- Web3Forms -->
+<div class="api-section">
+  <div class="api-section-title">📧 Web3Forms — Sold Lead Notifications <span class="api-tag tag-free">Free</span> <span class="api-tag tag-used">Used in ADT Page</span></div>
+  <div class="api-section-sub">Get an email notification every time you mark a lead as SOLD. Same API key from your ADT landing page works here.<br>250 free emails/month. Get key at web3forms.com</div>
+  <div class="input-row">
+    <input class="form-control" type="text" id="w3f-key" placeholder="Your Web3Forms Access Key (from ADT page)">
+    <button class="btn-connect" onclick="connectWeb3Forms()">Connect</button>
+  </div>
+  <div style="margin-top:6px;font-size:10px;color:var(--muted)">📬 Email notification sent when any lead is marked SOLD — includes name, address, phone, and notes.</div>
+</div>
+
+<div class="form-actions">
+  <button class="btn-ghost" onclick="closeApiModal()">Close</button>
+</div>
+```
+
+  </div>
+</div>
+
 <script>
 // ══════════════════════════════════════════════════════════════════
 // SECTION & STREET DEFINITIONS — 1,000 addresses across MV & Perris
@@ -405,8 +478,15 @@ const SECTION_META = {
 };
 
 // ══════════════════════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════════════════════
+function uid(){ return 'l'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function escHtml(s){ if(!s)return''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ══════════════════════════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════════════════════════
+let leads = [];
 let statusFilter = 'all';
 let sectionFilter = 'all'; // 'all' or section id
 let searchQ = '';
@@ -433,6 +513,8 @@ function switchView(v,btn){
   document.querySelectorAll('.panel-view').forEach(p=>p.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
   document.getElementById('sidebar').style.display = v==='map'?'flex':'none';
+  // Hide detail panel when leaving map view
+  if(v!=='map') document.getElementById('detailPanel').classList.remove('visible');
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -563,10 +645,6 @@ function renderLeads(){
   list.scrollTop = scrollTop;
 }
 
-function escHtml(str){
-  if(!str) return '';
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
 
 function showMore(secId, e){
   e.stopPropagation();
@@ -582,10 +660,16 @@ function toggleSection(id){
 
 function flyToSection(id,e){
   e.stopPropagation();
-  setSectionFilter(id, document.querySelector(`[onclick="setSectionFilter('${id}',this)"]`) || document.querySelector('.sec-chip'));
+  // Use data-sec attribute to avoid quote-escaping issues in querySelector
+  const chip = document.querySelector('.sec-chip[data-sec="'+id+'"]');
+  if(chip) setSectionFilter(id, chip);
+  // Ensure section is expanded
+  collapsedSections[id] = true;
+  sectionShowCount[id] = sectionShowCount[id] || 50;
+  renderLeads();
   if(gmap && sectionBounds[id]){
     const b=sectionBounds[id];
-    gmap.fitBounds({south:b.minLat-0.003,north:b.maxLat+0.003,west:b.minLng-0.003,east:b.maxLng+0.003});
+    gmap.fitBounds({south:b.minLat-0.004,north:b.maxLat+0.004,west:b.minLng-0.004,east:b.maxLng+0.004});
   }
 }
 
@@ -620,7 +704,9 @@ function selectLead(id){
   if(gmap && markers[id]){
     gmap.panTo(markers[id].getPosition());
     gmap.setZoom(17);
-    google.maps.event.trigger(markers[id],'click');
+    // Bounce animation to highlight selected marker
+    markers[id].setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(()=>{ if(markers[id]) markers[id].setAnimation(null); }, 700);
   }
 }
 
@@ -636,14 +722,21 @@ function debounceSave(){ clearTimeout(saveTimer); saveTimer=setTimeout(saveLead,
 function saveLead(){
   const l=leads.find(x=>x.id===selectedId);
   if(!l) return;
+  const prevStatus = l.status;
   l.status=document.getElementById('dp-status').value;
   l.name=document.getElementById('dp-rname').value||l.name;
   l.phone=document.getElementById('dp-phone').value;
   l.isp=document.getElementById('dp-isp').value;
   l.notes=document.getElementById('dp-notes').value;
+  l._dirty = true;
+  l._updatedAt = new Date().toISOString();
+  window._dirtyLeadId = l.id;
   updateMarkerIcon(l);
   renderLeads();
   persistLeads();
+  // Send sold notification via Web3Forms
+  if(l.status==='sold' && prevStatus!=='sold') notifyWeb3Forms(l);
+  showAlert('✓ Saved'+(fbEnabled?' & synced to cloud':''));
 }
 
 function deleteLead(){
@@ -651,16 +744,139 @@ function deleteLead(){
   if(markers[selectedId]){ markers[selectedId].setMap(null); delete markers[selectedId]; }
   leads=leads.filter(l=>l.id!==selectedId);
   closeDetail();
-  if(markerCluster) markerCluster.repaint();
+  if(markerCluster) if(markerCluster) markerCluster.render();
   persistLeads();
   showAlert('Lead deleted.');
 }
 
 // ══════════════════════════════════════════════════════════════════
-// PERSIST (localStorage)
+// PERSIST — localStorage (offline) + Firebase (cloud sync)
 // ══════════════════════════════════════════════════════════════════
 function persistLeads(){
-  try{ localStorage.setItem('fp2_leads', JSON.stringify(leads)); } catch(e){}
+  // Always save to localStorage as offline fallback
+  try{
+    // Only save mutations (changed leads) to stay under 5MB limit
+    const mutations = leads.filter(l=>l._dirty||l.phone||l.notes||(l.status!=='new'&&l.status!=='contact'&&l.status!=='no-answer'));
+    localStorage.setItem('fp2_leads', JSON.stringify(mutations));
+  } catch(e){ console.warn('localStorage save failed:',e); }
+  // Cloud sync if Firebase connected
+  cloudSyncLead(window._dirtyLeadId);
+  window._dirtyLeadId = null;
+}
+
+// ── FIREBASE FIRESTORE (free cloud sync) ──────────────────────────
+// Free tier: 1GB storage, 50k reads/day, 20k writes/day
+let fbDb = null;
+let fbEnabled = false;
+
+async function initFirebase(config){
+  if(!config || !config.projectId){ setApiStatus('firebase','off'); return; }
+  try{
+    // Dynamic import Firebase v9 modular SDK
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+    const { getFirestore, doc, setDoc, collection, onSnapshot, query, where }
+      = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const app = initializeApp(config, 'fieldpro-crm');
+    fbDb = getFirestore(app);
+    window._fbSetDoc = setDoc;
+    window._fbDoc = doc;
+    window._fbCollection = collection;
+    window._fbOnSnapshot = onSnapshot;
+    window._fbQuery = query;
+    fbEnabled = true;
+    setApiStatus('firebase','on');
+    showAlert('☁ Firebase connected — leads syncing to cloud!');
+    listenFirebaseChanges();
+    localStorage.setItem('fp2_fb_config', JSON.stringify(config));
+    console.log('[FieldPro] Firebase Firestore initialized');
+  } catch(err){
+    console.error('[FieldPro] Firebase init failed:',err);
+    setApiStatus('firebase','error');
+    showAlert('⚠ Firebase failed: '+err.message,'error');
+  }
+}
+
+async function cloudSyncLead(leadId){
+  if(!fbEnabled||!fbDb||!leadId) return;
+  const l = leads.find(x=>x.id===leadId);
+  if(!l) return;
+  try{
+    await window._fbSetDoc(window._fbDoc(fbDb,'fieldpro_leads',leadId), {
+      ...l, _syncedAt: new Date().toISOString()
+    });
+  } catch(err){ console.warn('[FieldPro] Firestore sync failed:',err); }
+}
+
+function listenFirebaseChanges(){
+  if(!fbEnabled||!fbDb) return;
+  // Real-time listener — updates sidebar if another device changes a lead
+  try{
+    const col = window._fbCollection(fbDb,'fieldpro_leads');
+    window._fbOnSnapshot(col, snapshot=>{
+      let changed = false;
+      snapshot.docChanges().forEach(change=>{
+        const remote = change.doc.data();
+        if(change.type==='modified' || change.type==='added'){
+          const idx = leads.findIndex(l=>l.id===remote.id);
+          if(idx>=0){
+            // Only update if remote is newer
+            if(!leads[idx]._syncedAt || remote._syncedAt > leads[idx]._syncedAt){
+              leads[idx] = {...leads[idx], ...remote};
+              if(markers[remote.id]) updateMarkerIcon(leads[idx]);
+              changed = true;
+            }
+          } else if(remote.lat && remote.id){
+            leads.unshift(remote);
+            if(gmap) markers[remote.id] = createMarker(remote);
+            changed = true;
+          }
+        }
+        if(change.type==='removed'){
+          leads = leads.filter(l=>l.id!==change.doc.id);
+          if(markers[change.doc.id]){ markers[change.doc.id].setMap(null); delete markers[change.doc.id]; }
+          changed = true;
+        }
+      });
+      if(changed) renderLeads();
+    });
+  } catch(err){ console.warn('[FieldPro] Firebase listener failed:',err); }
+}
+
+// ── WEB3FORMS (email notify on sold leads) ─────────────────────────
+// Free: 250 submissions/month — same API used in ADT landing page
+let web3Key = '';
+
+async function notifyWeb3Forms(lead){
+  if(!web3Key) return;
+  try{
+    const res = await fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify({
+        access_key: web3Key,
+        subject: '🏠 New Sold Lead — '+lead.address,
+        from_name: 'FieldPro CRM',
+        name: lead.name,
+        address: lead.address+', '+lead.city+', CA',
+        phone: lead.phone||'N/A',
+        isp: lead.isp||'Unknown',
+        status: lead.status,
+        notes: lead.notes||'',
+        message: 'Status changed to SOLD: '+lead.name+' at '+lead.address
+      })
+    });
+    const data = await res.json();
+    if(data.success) showAlert('📧 Sold notification sent!');
+    else console.warn('[FieldPro] Web3Forms error:',data.message);
+  } catch(err){ console.warn('[FieldPro] Web3Forms failed:',err); }
+}
+
+function setApiStatus(api, state){
+  const el = document.getElementById('apiStatus_'+api);
+  if(!el) return;
+  const icons={on:'✅',off:'⚙',error:'⚠'};
+  el.textContent = icons[state]+' '+(api==='firebase'?'Firebase':api==='web3forms'?'Notifications':api);
+  el.className = 'api-badge'+(state==='on'?' connected':state==='error'?' error-badge':'');
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -680,12 +896,13 @@ function loadGoogleMaps(){
 
 function injectMapsScript(key){
   const s=document.createElement('script');
-  s.src=`https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap`;
+  s.src=`https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=initMap`;
   s.onerror=()=>alert('Maps failed to load — check your API key.');
   document.head.appendChild(s);
-  // Also load MarkerClusterer
+  // MarkerClusterer — use version with reliable UMD export
   const c=document.createElement('script');
-  c.src='https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js';
+  c.src='https://unpkg.com/@googlemaps/markerclusterer@2.5.3/dist/index.umd.js';
+  c.id='clusterer-script';
   document.head.appendChild(c);
 }
 
@@ -709,6 +926,35 @@ window.initMap = function(){
   // Click map to add lead
   gmap.addListener('click',e=>mapClick(e.latLng.lat(),e.latLng.lng()));
 
+  // Places Autocomplete on address input
+  try{
+    const addrInput = document.getElementById('f-addr');
+    const autocomplete = new google.maps.places.Autocomplete(addrInput,{
+      componentRestrictions:{country:'us'},
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(33.74,-117.27),
+        new google.maps.LatLng(33.97,-117.13)
+      ),
+      strictBounds: false,
+      fields:['formatted_address','geometry','address_components']
+    });
+    autocomplete.addListener('place_changed',()=>{
+      const place = autocomplete.getPlace();
+      if(place.geometry){
+        window._modalLat = place.geometry.location.lat();
+        window._modalLng = place.geometry.location.lng();
+        // Auto-set city
+        const cityComp = place.address_components?.find(c=>c.types.includes('locality'));
+        if(cityComp){
+          const cityVal = cityComp.long_name;
+          const citySelect = document.getElementById('f-city');
+          if(cityVal.includes('Perris')) citySelect.value='Perris';
+          else citySelect.value='Moreno Valley';
+        }
+      }
+    });
+  } catch(e){ console.warn('Places Autocomplete failed:',e); }
+
   // Plot all 1000 leads
   plotAllMarkers();
 };
@@ -723,12 +969,17 @@ function plotAllMarkers(){
 
   // Use MarkerClusterer if available
   setTimeout(()=>{
-    if(window.markerClusterer && window.markerClusterer.MarkerClusterer){
-      markerCluster=new window.markerClusterer.MarkerClusterer({
-        map:gmap,
-        markers:allMarkers,
-        algorithm:new window.markerClusterer.SuperClusterAlgorithm({radius:60,maxZoom:15})
-      });
+    // Try both possible UMD namespaces
+    const MC = (window.markerClusterer||window.MarkerClusterer);
+    if(MC && MC.MarkerClusterer){
+      try{
+        markerCluster=new MC.MarkerClusterer({
+          map:gmap, markers:allMarkers,
+          algorithm: MC.SuperClusterAlgorithm
+            ? new MC.SuperClusterAlgorithm({radius:80,maxZoom:14})
+            : undefined
+        });
+      } catch(err){ console.warn('[FieldPro] Clusterer init failed:',err); }
     }
   },800);
 }
@@ -856,17 +1107,27 @@ function submitNewLead(){
     lat:null,lng:null,houseNum:0,streetName:addr,
     createdAt:new Date().toISOString()
   };
-  // Geocode if maps loaded
+  // Use Places Autocomplete coords if available, else geocode
   if(googleLoaded){
-    new google.maps.Geocoder().geocode({address:addr+', '+city+', CA'},(res,status)=>{
-      if(status==='OK'){
-        l.lat=res[0].geometry.location.lat();
-        l.lng=res[0].geometry.location.lng();
-        markers[l.id]=createMarker(l);
-        if(markerCluster) markerCluster.addMarker(markers[l.id]);
-      }
-      persistLeads();
-    });
+    if(window._modalLat && window._modalLng){
+      l.lat = window._modalLat; l.lng = window._modalLng;
+      window._modalLat = null; window._modalLng = null;
+      markers[l.id]=createMarker(l);
+      if(markerCluster) markerCluster.addMarker(markers[l.id]);
+      window._dirtyLeadId = l.id;
+      cloudSyncLead(l.id);
+    } else {
+      new google.maps.Geocoder().geocode({address:addr+', '+city+', CA'},(res,status)=>{
+        if(status==='OK'){
+          l.lat=res[0].geometry.location.lat();
+          l.lng=res[0].geometry.location.lng();
+          markers[l.id]=createMarker(l);
+          if(markerCluster) markerCluster.addMarker(markers[l.id]);
+          window._dirtyLeadId = l.id;
+          cloudSyncLead(l.id);
+        }
+      });
+    }
   }
   leads.unshift(l);
   renderLeads();
@@ -979,11 +1240,13 @@ function renderCancel(){
 // ══════════════════════════════════════════════════════════════════
 // ALERT
 // ══════════════════════════════════════════════════════════════════
-function showAlert(msg){
+function showAlert(msg, type){
   const el=document.getElementById('alertBanner');
   el.textContent=msg;
+  el.classList.remove('err');
+  if(type==='error') el.classList.add('err');
   el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),2500);
+  setTimeout(()=>{ el.classList.remove('show','err'); },3000);
 }
 
 function demoMode(e){
@@ -1013,6 +1276,58 @@ const DARK_STYLE=[
   {featureType:'transit',elementType:'geometry',stylers:[{color:'#2f3948'}]},
   {featureType:'administrative.locality',elementType:'labels.text.fill',stylers:[{color:'#d59563'}]},
 ];
+
+// ══════════════════════════════════════════════════════════════════
+// API MODAL HANDLERS
+// ══════════════════════════════════════════════════════════════════
+function openApiModal(){
+  // Prefill saved values
+  const savedKey = localStorage.getItem('fp2_key')||'';
+  if(savedKey){ document.getElementById('apiKeyInput2').value=savedKey; }
+  const savedFb = JSON.parse(localStorage.getItem('fp2_fb_config')||'null');
+  if(savedFb){
+    if(savedFb.projectId) document.getElementById('fb-projectId').value=savedFb.projectId;
+    if(savedFb.apiKey) document.getElementById('fb-apiKey').value=savedFb.apiKey;
+    if(savedFb.appId) document.getElementById('fb-appId').value=savedFb.appId;
+  }
+  const savedW3 = localStorage.getItem('fp2_w3f_key')||'';
+  if(savedW3) document.getElementById('w3f-key').value=savedW3;
+  document.getElementById('apiModal').classList.add('open');
+}
+function closeApiModal(){ document.getElementById('apiModal').classList.remove('open'); }
+
+function connectMaps(){
+  const k = document.getElementById('apiKeyInput2').value.trim();
+  if(!k){ showAlert('Paste your Google Maps API key','error'); return; }
+  document.getElementById('apiKeyInput').value=k;
+  localStorage.setItem('fp2_key',k);
+  injectMapsScript(k);
+  closeApiModal();
+}
+
+function connectFirebase(){
+  const pid=document.getElementById('fb-projectId').value.trim();
+  const akey=document.getElementById('fb-apiKey').value.trim();
+  const appid=document.getElementById('fb-appId').value.trim();
+  if(!pid||!akey){ showAlert('Project ID and API Key are required','error'); return; }
+  const cfg={
+    projectId:pid, apiKey:akey, appId:appid||undefined,
+    authDomain:pid+'.firebaseapp.com',
+    storageBucket:pid+'.appspot.com'
+  };
+  document.getElementById('apiStatus_firebase').style.display='inline-block';
+  initFirebase(cfg);
+  closeApiModal();
+}
+
+function connectWeb3Forms(){
+  const k=document.getElementById('w3f-key').value.trim();
+  if(!k){ showAlert('Paste your Web3Forms access key','error'); return; }
+  web3Key=k;
+  localStorage.setItem('fp2_w3f_key',k);
+  showAlert('📧 Web3Forms connected — sold lead notifications active!');
+  closeApiModal();
+}
 
 // ══════════════════════════════════════════════════════════════════
 // INIT
@@ -1053,19 +1368,35 @@ function boot(){
     if(l.lng<b.minLng)b.minLng=l.lng; if(l.lng>b.maxLng)b.maxLng=l.lng;
   });
 
-  // Try to restore any saved mutations from localStorage
+  // Smart restore: merge saved mutations onto base leads by ID
   try{
     const saved=JSON.parse(localStorage.getItem('fp2_leads')||'null');
-    if(saved && saved.length===leads.length){
-      // Merge saved data (status, phone, notes, name changes) onto generated leads
+    if(saved && Array.isArray(saved) && saved.length>0){
       const savedMap={};
-      saved.forEach(s=>savedMap[s.id]=s);
-      // If IDs don't match (fresh generation), skip restore
-      if(savedMap[leads[0]?.id]){
-        leads=saved;
-      }
+      saved.forEach(s=>{ if(s.id) savedMap[s.id]=s; });
+      // Apply saved mutations to base leads (status, phone, notes, name, isp)
+      let mergeCount=0;
+      leads.forEach(l=>{
+        if(savedMap[l.id]){
+          const s=savedMap[l.id];
+          if(s.status) l.status=s.status;
+          if(s.phone) l.phone=s.phone;
+          if(s.notes) l.notes=s.notes;
+          if(s.name && s.name!=='New Lead') l.name=s.name;
+          if(s.isp) l.isp=s.isp;
+          mergeCount++;
+        }
+      });
+      // Also restore any manually-added leads (not in base set)
+      const baseIds=new Set(leads.map(l=>l.id));
+      saved.forEach(s=>{
+        if(!baseIds.has(s.id) && s.address && s.lat){
+          leads.unshift(s);
+        }
+      });
+      if(mergeCount>0) console.log('[FieldPro] Restored',mergeCount,'saved lead mutations from localStorage');
     }
-  } catch(e){}
+  } catch(e){ console.warn('[FieldPro] localStorage restore failed:',e); }
 
   buildSectionNav();
   renderISP();
@@ -1074,16 +1405,25 @@ function boot(){
   updateStats();
   renderLegend();
 
-  // Auto-load saved API key
+  // Auto-load saved API keys
   const key=localStorage.getItem('fp2_key');
   if(key){
     document.getElementById('apiKeyInput').value=key;
     injectMapsScript(key);
   }
+  // Auto-load Web3Forms key
+  const w3k=localStorage.getItem('fp2_w3f_key');
+  if(w3k){ web3Key=w3k; }
+  // Auto-connect Firebase if previously configured
+  const fbCfg=JSON.parse(localStorage.getItem('fp2_fb_config')||'null');
+  if(fbCfg){
+    document.getElementById('apiStatus_firebase').style.display='inline-block';
+    initFirebase(fbCfg);
+  }
 }
 
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){closeModal();closeDetail();}
+  if(e.key==='Escape'){closeModal();closeDetail();closeApiModal();}
 });
 
 boot();
