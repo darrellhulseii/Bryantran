@@ -225,6 +225,7 @@ select.form-control option{background:var(--card);}
     <button class="nav-tab active" onclick="switchView('map',this)">🗺 Map & Leads</button>
     <button class="nav-tab" onclick="switchView('isp',this)">📡 ISP Plans</button>
     <button class="nav-tab" onclick="switchView('cancel',this)">🚫 Cancel Guides</button>
+    <button class="nav-tab" onclick="switchView('news',this)">📡 News &amp; Outages</button>
   </div>
   <div class="topbar-right">
     <span class="lead-count-badge" id="totalBadge">1,000 Leads</span>
@@ -354,6 +355,217 @@ select.form-control option{background:var(--card);}
     <div class="cancel-grid" id="cancelGrid"></div>
   </div>
 </div>
+</div>
+
+<!-- NEWS & OUTAGES VIEW -->
+
+<div class="panel-view" id="view-news">
+<div class="section-title">📡 Local ISP News & Recent Outages</div>
+<div class="section-sub">Verified outage reports and fiber expansion news for Moreno Valley, Perris &amp; Riverside County — updated March 2026</div>
+
+<!-- OUTAGE ALERT BANNER -->
+
+<div style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.4);border-radius:10px;padding:14px 18px;margin-bottom:24px;display:flex;align-items:flex-start;gap:12px;">
+  <div style="font-size:24px;flex-shrink:0">🚨</div>
+  <div>
+    <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:#ef4444;margin-bottom:4px">MAJOR CHANGE: Frontier is now Verizon (Jan 20, 2026)</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.6">Verizon completed its $20B acquisition of Frontier Communications on January 20, 2026, after California CPUC gave final approval on Jan 15. All Frontier customers in Moreno Valley (92552/92553/92555) and Perris (92570/92571) are now Verizon customers. Verizon must deploy fiber to 75,000+ new CA locations within 5 years and offer a $20/mo low-income plan. <a href="https://www.verizon.com/about/news/feed/introducing-frontier-verizon-company" target="_blank" style="color:var(--accent)">Official announcement →</a></div>
+  </div>
+</div>
+
+<!-- RECENT OUTAGES -->
+
+<div class="city-label" style="margin-bottom:14px"><div class="city-dot" style="background:#ef4444"></div>⚡ Recent Outages — Last 30 Days</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;">
+
+<div class="cancel-card" style="border-left:3px solid #ef4444">
+  <div class="cancel-header">
+    <div class="cancel-icon" style="background:#ef4444;font-size:11px;font-weight:800">VZ</div>
+    <div><div class="cancel-provider">Frontier/Verizon — Fiber Cut</div><div class="cancel-phone">📍 Moreno Valley 92557, Perris, Riverside, Colton</div></div>
+    <span style="margin-left:auto;font-size:9px;padding:2px 8px;background:rgba(239,68,68,.2);color:#ef4444;border-radius:20px;font-weight:700;white-space:nowrap">Jan 16, 2026</span>
+  </div>
+  <ul class="cancel-steps">
+    <li><div class="step-num">1</div><div>Fiber internet outage detected at 1:41 PM PST — 10-minute disruption confirmed by StatusGator, affecting Moreno Valley and surrounding IE cities.</div></li>
+    <li><div class="step-num">2</div><div>@AriesNocturnal from Perris, CA: <em>"@AskFrontier will the internet outage in Perris, CA resolve by tomorrow morning? I need it to work remotely."</em></div></li>
+    <li><div class="step-num">3</div><div>@Inspectordale from MV 92557: <em>"@AskFrontier just confirming an outage in the 92557 zip."</em> — outage confirmed community-wide.</div></li>
+    <li><div class="step-num">4</div><div>Coincided with Frontier's final Nasdaq trading day ahead of Verizon close. Customer service queues were unusually long during transition chaos.</div></li>
+  </ul>
+  <div class="cancel-warn">⚠ Merger confusion = switching window. Customers actively seeking alternatives during this period.</div>
+</div>
+
+<div class="cancel-card" style="border-left:3px solid #f59e0b">
+  <div class="cancel-header">
+    <div class="cancel-icon" style="background:#f59e0b;font-size:11px;font-weight:800">FT</div>
+    <div><div class="cancel-provider">Frontier — Phone &amp; Internet Down</div><div class="cancel-phone">📍 Inland Empire wide</div></div>
+    <span style="margin-left:auto;font-size:9px;padding:2px 8px;background:rgba(245,158,11,.2);color:#f59e0b;border-radius:20px;font-weight:700;white-space:nowrap">Jan 11, 2026</span>
+  </div>
+  <ul class="cancel-steps">
+    <li><div class="step-num">1</div><div>Phone and internet outage lasted 1 hour 36 minutes starting 10:07 PM PST — detected by StatusGator. Hit MV, Rialto, Fontana, Redlands, Highland corridors.</div></li>
+    <li><div class="step-num">2</div><div>Multiple Moreno Valley customers reported service "up and down constantly." Several referenced switching to Spectrum after repeated incidents.</div></li>
+    <li><div class="step-num">3</div><div>Frontier never officially acknowledged this outage on their status page — a recurring pattern with IE customers that generates frustration and churn.</div></li>
+  </ul>
+  <div class="cancel-warn">⚠ Frontier never credits accounts automatically. Customers must call in to demand credits — many simply switch instead.</div>
+</div>
+
+<div class="cancel-card" style="border-left:3px solid #3b7ef8">
+  <div class="cancel-header">
+    <div class="cancel-icon" style="background:#3b7ef8;font-size:11px;font-weight:800">SP</div>
+    <div><div class="cancel-provider">Spectrum — Recurring Peak-Hour Drops</div><div class="cancel-phone">📍 Moreno Valley, Perris, Menifee, Lake Elsinore</div></div>
+    <span style="margin-left:auto;font-size:9px;padding:2px 8px;background:rgba(59,126,248,.2);color:#3b7ef8;border-radius:20px;font-weight:700;white-space:nowrap">Feb–Mar 2026</span>
+  </div>
+  <ul class="cancel-steps">
+    <li><div class="step-num">1</div><div>Spectrum outage tracker consistently lists Moreno Valley and Perris among top-reported IE cities alongside Rialto, Fontana, Riverside, Colton, and Redlands.</div></li>
+    <li><div class="step-num">2</div><div>@isthatcarrillo from Perris, CA: <em>"@Ask_Spectrum fix my internet and TV I'm missing sports!!"</em> — pattern of evening outages during peak streaming hours (7–10 PM).</div></li>
+    <li><div class="step-num">3</div><div>MV user: <em>"@Ask_Spectrum the wifi goes down every single day and I already got my router replaced last week"</em> — node-level issue, equipment swap didn't help.</div></li>
+    <li><div class="step-num">4</div><div>Spectrum's MV node covers high-density residential blocks along Alessandro Blvd and Sunnymead — shared cable bandwidth degrades at peak hours structurally.</div></li>
+  </ul>
+  <div class="cancel-warn">⚠ Cable is shared bandwidth — peak-hour slowdowns are structural, not one-off. Fiber's dedicated connection is the core sales argument.</div>
+</div>
+
+<div class="cancel-card" style="border-left:3px solid #a855f7">
+  <div class="cancel-header">
+    <div class="cancel-icon" style="background:#a855f7;font-size:11px;font-weight:800">BB</div>
+    <div><div class="cancel-provider">Hurricane Electric Backbone Outage</div><div class="cancel-phone">📍 California-based upstream transit — national cascade</div></div>
+    <span style="margin-left:auto;font-size:9px;padding:2px 8px;background:rgba(168,85,247,.2);color:#a855f7;border-radius:20px;font-weight:700;white-space:nowrap">Feb 10, 2026</span>
+  </div>
+  <ul class="cancel-steps">
+    <li><div class="step-num">1</div><div>Hurricane Electric (Fremont, CA backbone transit provider) had a 15-minute outage at 5:40 PM EST, cascading to downstream ISPs across the U.S., Mexico, UK, India, and more (Network World).</div></li>
+    <li><div class="step-num">2</div><div>Regional ISPs using shared upstream transit — including smaller IE providers — experienced brief slowdowns. Fiber ISPs with multiple peering agreements are more resilient to this type of cascade.</div></li>
+  </ul>
+  <div class="cancel-warn">⚠ Backbone outages affect all ISPs using shared transit. Fiber-first providers with diverse routing (Frontier/Verizon, AT&amp;T) recover faster than single-transit cable operators.</div>
+</div>
+
+</div>
+
+<!-- FIBER EXPANSION NEWS -->
+
+<div class="city-label" style="margin-bottom:14px"><div class="city-dot" style="background:#22c55e"></div>🔧 Fiber Expansion News — Riverside County &amp; Inland Empire</div>
+<div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px">
+
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px">
+  <div style="display:flex;align-items:flex-start;gap:12px">
+    <div style="width:38px;height:38px;border-radius:8px;background:rgba(239,68,68,.12);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📡</div>
+    <div style="flex:1">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px">Verizon Acquires Frontier — 75,000 New CA Fiber Locations Required by CPUC</div>
+        <span style="font-size:9px;padding:2px 7px;border-radius:20px;background:rgba(34,197,94,.15);color:var(--success);font-weight:700">JAN 20, 2026</span>
+        <span style="font-size:9px;padding:2px 7px;border-radius:20px;background:rgba(239,68,68,.15);color:#ef4444;font-weight:700">YOUR TERRITORY</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7">California CPUC approved the $20B Verizon-Frontier deal on January 15, 2026, closing January 20. As a condition of approval, Verizon must deploy fiber to <strong style="color:var(--text)">75,000 new California locations</strong> within 5 years. Verizon must also offer a <strong style="color:var(--text)">$20/month low-income broadband plan</strong> and spend $500M with California small businesses. Frontier's existing fiber in MV and Perris continues under the Verizon brand. Customers can expect bundled Verizon 5G + fiber home internet offers in coming months. <strong style="color:var(--accent)">Sales implication:</strong> Transitioning customers are often confused about pricing — prime door-to-door window.</div>
+    </div>
+  </div>
+</div>
+
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px">
+  <div style="display:flex;align-items:flex-start;gap:12px">
+    <div style="width:38px;height:38px;border-radius:8px;background:rgba(0,168,224,.12);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🔵</div>
+    <div style="flex:1">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px">AT&amp;T Added 40,000+ Fiber Locations in Greater LA / Riverside Region in 2025 — Targeting 40M Nationally by End of 2026</div>
+        <span style="font-size:9px;padding:2px 7px;border-radius:20px;background:rgba(0,212,170,.15);color:var(--accent2);font-weight:700">OCT 2025</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7">AT&amp;T expanded to <strong style="color:var(--text)">40,000+ new locations</strong> across LA, Orange, Riverside, San Bernardino, Santa Barbara, and Ventura counties in 2025. AT&amp;T received <strong style="color:var(--text)">~$12M in CPUC grants</strong> for Riverside County fiber. The company is targeting 40 million total fiber passings nationally by end of 2026 (up from 32M at end of 2025). Currently reaches ~60% of Moreno Valley and ~55% of Perris — large unserved pockets in eastern MV (Pigeon Pass area, Section M) and outlying Perris remain. <strong style="color:var(--accent)">Where AT&amp;T is unavailable, it's a customer frustration point worth exploring at the door.</strong></div>
+    </div>
+  </div>
+</div>
+
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px">
+  <div style="display:flex;align-items:flex-start;gap:12px">
+    <div style="width:38px;height:38px;border-radius:8px;background:rgba(59,126,248,.12);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🏛</div>
+    <div style="flex:1">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px">California BEAD $1.86B Approved — Active Fiber Build on State Route 74, Riverside County</div>
+        <span style="font-size:9px;padding:2px 7px;border-radius:20px;background:rgba(59,126,248,.15);color:var(--accent);font-weight:700">DEC 2025</span>
+        <span style="font-size:9px;padding:2px 7px;border-radius:20px;background:rgba(239,68,68,.15);color:#ef4444;font-weight:700">ACTIVE CONSTRUCTION</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7">California CPUC voted 5-0 on December 18, 2025 to approve the state's BEAD Final Proposal ($1.86B allocated). <strong style="color:var(--text)">Caltrans is actively installing fiber along State Route 74 in Riverside County</strong> as of November 2025. SR-74 runs through Hemet, connecting the IE to Coachella Valley — this middle-mile infrastructure unlocks future last-mile expansion. CPUC targets broadband grants in every county by January 2026, with <strong style="color:var(--text)">$550M more planned for 2027-2028</strong>. The competitive landscape in your territory will intensify significantly over the next 3-5 years.</div>
+    </div>
+  </div>
+</div>
+
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px">
+  <div style="display:flex;align-items:flex-start;gap:12px">
+    <div style="width:38px;height:38px;border-radius:8px;background:rgba(34,197,94,.12);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">💰</div>
+    <div style="flex:1">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px">$22.9M in Fiber Grants for Riverside County — Including $8.9M for Indio Municipal Fiber Network</div>
+        <span style="font-size:9px;padding:2px 7px;border-radius:20px;background:rgba(34,197,94,.15);color:var(--success);font-weight:700">2025 CPUC AWARD</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7">CPUC awarded <strong style="color:var(--text)">$22.9M across five Riverside County fiber projects</strong>. Indio (92,000 residents) received $8.9M to build the <strong style="color:var(--text)">first city-owned gigabit fiber network in Coachella Valley</strong> — 75% of target area is low-income, pricing locked for 10 years. AT&amp;T received ~$12M for Riverside County fiber expansion. Frontier received $2M. <strong style="color:var(--accent)">Perris is currently cable-dependent while Moreno Valley has stronger fiber competition — this gap is a short-term sales advantage for the Perris sections in your pipeline.</strong></div>
+    </div>
+  </div>
+</div>
+
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px">
+  <div style="display:flex;align-items:flex-start;gap:12px">
+    <div style="width:38px;height:38px;border-radius:8px;background:rgba(168,85,247,.12);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🏠</div>
+    <div style="flex:1">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px">California LifeLine Broadband Pilot Launches 2026 — Affects Low-Income Households in MV &amp; Perris</div>
+        <span style="font-size:9px;padding:2px 7px;border-radius:20px;background:rgba(168,85,247,.15);color:#a855f7;font-weight:700">2026 LAUNCH</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7">California's 3-year Home Broadband Pilot allows LifeLine-eligible households to apply state subsidies toward any qualifying internet plan (min 100/20 Mbps, 1,280 GB/mo). Verizon committed to a $20/mo low-income plan as a merger condition. Given significant low-income populations in both MV and Perris, many households in your lead database may qualify for reduced-cost fiber. <strong style="color:var(--accent)">Door-to-door angle:</strong> A household eligible for LifeLine subsidy may be ready to upgrade their internet and add home security simultaneously.</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- RELIABILITY SNAPSHOT TABLE -->
+
+<div class="city-label" style="margin-bottom:12px"><div class="city-dot" style="background:#3b7ef8"></div>📊 ISP Reliability Snapshot — Moreno Valley &amp; Perris</div>
+<table class="isp-table" style="margin-bottom:24px">
+  <thead><tr><th>Provider</th><th>Type</th><th>Recent Outage History (30 days)</th><th>Sales Angle</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><div class="isp-name"><div class="isp-icon" style="background:#ef4444">V</div>Frontier/Verizon</div></td>
+      <td><span class="type-badge fiber">fiber</span></td>
+      <td style="font-size:11px;color:var(--warn)">Jan 11 (1h 36m) · Jan 16 (10 min) — 2 confirmed outages during merger transition</td>
+      <td style="font-size:11px;color:var(--success)">Merger confusion = prime switching window. Customers unsure of Verizon pricing.</td>
+    </tr>
+    <tr>
+      <td><div class="isp-name"><div class="isp-icon" style="background:#3b7ef8">S</div>Spectrum</div></td>
+      <td><span class="type-badge cable">cable</span></td>
+      <td style="font-size:11px;color:var(--danger)">Recurring peak-hour drops. MV &amp; Perris consistently among top-reported IE cities monthly.</td>
+      <td style="font-size:11px;color:var(--success)">Shared cable bandwidth — fiber's dedicated line is a direct structural upgrade argument.</td>
+    </tr>
+    <tr>
+      <td><div class="isp-name"><div class="isp-icon" style="background:#00a8e0">A</div>AT&amp;T Fiber</div></td>
+      <td><span class="type-badge fiber">fiber</span></td>
+      <td style="font-size:11px;color:var(--success)">No major documented outages in MV/Perris last 30 days. Most stable wired option.</td>
+      <td style="font-size:11px;color:var(--muted)">~60% MV, ~55% Perris coverage. Large unserved gaps — frustration point for out-of-area customers.</td>
+    </tr>
+    <tr>
+      <td><div class="isp-name"><div class="isp-icon" style="background:#f59e0b">V</div>Viasat</div></td>
+      <td><span class="type-badge satellite">satellite</span></td>
+      <td style="font-size:11px;color:var(--warn)">Weather-dependent. Rain fade and peak congestion throttling are structural limitations.</td>
+      <td style="font-size:11px;color:var(--success)">2-yr ETF + high price = cancellation pain. Eager to switch once fiber is available nearby.</td>
+    </tr>
+    <tr>
+      <td><div class="isp-name"><div class="isp-icon" style="background:#e20074">T</div>T-Mobile Home</div></td>
+      <td><span class="type-badge wireless">wireless</span></td>
+      <td style="font-size:11px;color:var(--muted)">Tower-dependent. 64% MV coverage. Strong in sections F/G/H, weak in Section M (Pigeon Pass).</td>
+      <td style="font-size:11px;color:var(--success)">No contract, month-to-month — easy switching conversation. Position fiber as more stable.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- LIVE LINKS -->
+
+<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px">
+  <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:10px">🔗 Live Outage &amp; News Resources</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <a href="https://downdetector.com/status/spectrum/map/" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--accent);font-size:11px;text-decoration:none">📡 Spectrum Downdetector Map</a>
+    <a href="https://downdetector.com/status/frontier/" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--accent);font-size:11px;text-decoration:none">📡 Frontier/Verizon Downdetector</a>
+    <a href="https://istheservicedown.com/problems/frontier/5374732-moreno-valley-riverside-county-california-united-states" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--accent);font-size:11px;text-decoration:none">🗺 Frontier MV Live Reports</a>
+    <a href="https://istheservicedown.com/problems/charter-communications/5374732-moreno-valley-riverside-county-california-united-states" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--accent);font-size:11px;text-decoration:none">🗺 Spectrum MV Live Reports</a>
+    <a href="https://statusgator.com/services/frontier-communications" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--accent);font-size:11px;text-decoration:none">📊 StatusGator Frontier History</a>
+    <a href="https://broadbandforall.cdt.ca.gov" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--accent);font-size:11px;text-decoration:none">🏛 CA Broadband For All</a>
+    <a href="https://www.cpuc.ca.gov/beadprogram" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--accent);font-size:11px;text-decoration:none">💰 CPUC BEAD Map</a>
+    <a href="https://www.verizon.com/about/news/feed/introducing-frontier-verizon-company" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--accent);font-size:11px;text-decoration:none">📰 Verizon-Frontier Merger News</a>
+  </div>
+</div>
+
 </div>
 
 <!-- ADD LEAD MODAL -->
